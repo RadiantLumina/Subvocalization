@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>隐读</title>
+<link rel="stylesheet" href="reader.css">
+</head>
+<body>
+<div id="reader-app">
+  <div id="titlebar">
+    <span id="novelTitle" class="drag-region">未加载</span>
+    <div class="titlebar-actions">
+      <span id="chapterInfo"></span>
+      <button id="btnLock" class="titlebar-btn" title="锁定/解锁窗口位置" onclick="toggleLock()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </button>
+      <button id="btnSettings" class="titlebar-btn" title="设置" onclick="showQuickSettings()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </button>
+      <button class="titlebar-btn" title="最小化" onclick="window.electronAPI.hideReader()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div id="contentArea">
+    <div id="loading" class="center-hint">等待加载...</div>
+    <div id="readerContent" style="display:none">
+      <div id="chapterTitle"></div>
+      <div id="textContent"></div>
+    </div>
+  </div>
+
+  <div id="bottombar">
+    <span id="pageInfo">- / -</span>
+    <div class="nav-buttons">
+      <button class="nav-btn" onclick="navigate('prevChapter')" title="上一章 Ctrl+Left">|◀</button>
+      <button class="nav-btn" onclick="navigate('prevPage')" title="上一页 Left">◀</button>
+      <button class="nav-btn" onclick="navigate('nextPage')" title="下一页 Right">▶</button>
+      <button class="nav-btn" onclick="navigate('nextChapter')" title="下一章 Ctrl+Right">▶|</button>
+    </div>
+    <span id="chapterProgress" class="progress-text"></span>
+  </div>
+
+  <div id="quickSettings" class="quick-settings" style="display:none">
+    <div class="qs-header">快捷设置</div>
+    <div class="qs-row">
+      <label>透明度</label>
+      <input type="range" id="qsOpacity" min="10" max="100" value="85" oninput="qsSetOpacity(this.value)">
+      <span id="qsOpacityVal">85%</span>
+    </div>
+    <div class="qs-row">
+      <label>字号</label>
+      <input type="range" id="qsFontSize" min="12" max="28" value="16" oninput="qsSetFontSize(this.value)">
+      <span id="qsFontSizeVal">16px</span>
+    </div>
+    <div class="qs-row">
+      <label>背景</label>
+      <input type="color" id="qsBgColor" value="#1a1a2e" oninput="qsSetBgColor(this.value)">
+    </div>
+    <div class="qs-row">
+      <label>文字</label>
+      <input type="color" id="qsTextColor" value="#e0e0e0" oninput="qsSetTextColor(this.value)">
+    </div>
+    <div class="qs-row">
+      <label>模式</label>
+      <select id="qsPageMode" onchange="qsSetPageMode(this.value)">
+        <option value="scroll">滚动</option>
+        <option value="split">分页</option>
+      </select>
+    </div>
+    <button class="qs-close" onclick="hideQuickSettings()">关闭</button>
+  </div>
+</div>
+<script src="reader.js"></script>
+</body>
+</html>

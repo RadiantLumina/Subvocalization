@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>隐读 - 网页浏览</title>
+<link rel="stylesheet" href="browser.css">
+</head>
+<body>
+<div id="browser-app">
+  <div id="toolbar">
+    <div class="nav-row">
+      <div class="nav-btns">
+        <button id="btnBack" class="tb-btn" onclick="goBack()" title="后退">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button id="btnForward" class="tb-btn" onclick="goForward()" title="前进">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+        <button id="btnRefresh" class="tb-btn" onclick="goRefresh()" title="刷新">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+        </button>
+      </div>
+      <div class="url-bar-wrapper">
+        <span id="urlSecure" class="url-icon" title="安全状态">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </span>
+        <input type="text" id="urlInput" class="url-input" placeholder="输入网址..." onkeydown="handleUrlKeydown(event)">
+      </div>
+    </div>
+    <div class="action-row">
+      <div class="site-shortcuts">
+        <button class="site-btn" onclick="navTo('https://fanqienovel.com/')">番茄小说</button>
+        <button class="site-btn" onclick="navTo('https://www.qidian.com/')">起点中文网</button>
+        <button class="site-btn" onclick="navTo('https://book.qq.com/')">QQ阅读</button>
+      </div>
+      <div class="extract-btns">
+        <button id="btnExtractCh" class="action-btn" onclick="extractChapters()">获取目录</button>
+        <button id="btnExtract" class="action-btn primary" onclick="extractContent()">提取本章</button>
+        <button id="btnClean" class="action-btn" onclick="cleanContent()">清洗数据</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="webviewContainer">
+    <webview id="webview" src="about:blank"
+      style="width:100%;height:100%"
+      allowpopups
+      useragent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36">
+    </webview>
+    <div id="extractPanel" class="extract-panel" style="display:none">
+      <div class="ep-header">
+        <span>提取内容预览</span>
+        <button class="ep-close" onclick="toggleExtractPanel()">x</button>
+      </div>
+      <div class="ep-info">
+        <span id="epTitle"></span>
+        <span id="epLen"></span>
+        <span id="epUrl"></span>
+      </div>
+      <div class="ep-content" id="epContent"></div>
+      <div class="ep-actions">
+        <button class="action-btn primary" onclick="startReadExtracted()">在阅读窗中打开</button>
+        <button class="action-btn" onclick="copyExtracted()">复制全文</button>
+        <button class="action-btn" onclick="saveExtracted()">加入书库</button>
+      </div>
+    </div>
+    <div id="chapterListPanel" class="extract-panel chapter-list-panel" style="display:none">
+      <div class="ep-header">
+        <span>章节目录</span>
+        <button class="ep-close" onclick="toggleChapterPanel()">x</button>
+      </div>
+      <div class="chapter-panel-list" id="chapterPanelList"></div>
+    </div>
+  </div>
+
+  <div id="statusBar">
+    <span id="statusText">就绪</span>
+    <span id="statusUrl"></span>
+  </div>
+</div>
+<script src="browser.js"></script>
+</body>
+</html>

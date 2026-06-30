@@ -1,0 +1,285 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --reader-bg: #1a1a2e;
+  --reader-text: #e0e0e0;
+  --reader-accent: rgba(108, 99, 255, 0.6);
+  --reader-border: rgba(255, 255, 255, 0.08);
+  --reader-hover: rgba(255, 255, 255, 0.05);
+  --reader-font: "Microsoft YaHei", "PingFang SC", SimSun, serif;
+  --reader-font-size: 16px;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: var(--reader-font);
+  background: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#reader-app {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--reader-bg);
+  border-radius: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+#titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px;
+  background: rgba(0, 0, 0, 0.3);
+  border-bottom: 1px solid var(--reader-border);
+  min-height: 32px;
+  -webkit-app-region: drag;
+}
+
+.drag-region {
+  -webkit-app-region: drag;
+}
+
+#novelTitle {
+  font-size: 12px;
+  color: var(--reader-accent);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+.titlebar-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  -webkit-app-region: no-drag;
+}
+
+#chapterInfo {
+  font-size: 11px;
+  color: rgba(255,255,255,0.4);
+  margin-right: 8px;
+}
+
+.titlebar-btn {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.5);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s, background 0.15s;
+}
+
+.titlebar-btn:hover {
+  color: rgba(255,255,255,0.9);
+  background: var(--reader-hover);
+}
+
+.titlebar-btn.locked {
+  color: #ff9800;
+}
+
+#contentArea {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.center-hint {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: rgba(255,255,255,0.3);
+  font-size: 14px;
+}
+
+#readerContent {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 24px;
+  scroll-behavior: smooth;
+}
+
+#readerContent::-webkit-scrollbar {
+  width: 4px;
+}
+
+#readerContent::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#readerContent::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.1);
+  border-radius: 2px;
+}
+
+#readerContent::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+#chapterTitle {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--reader-text);
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--reader-border);
+}
+
+#textContent {
+  font-size: var(--reader-font-size);
+  color: var(--reader-text);
+  line-height: 2;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  letter-spacing: 0.5px;
+}
+
+#bottombar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px;
+  background: rgba(0,0,0,0.3);
+  border-top: 1px solid var(--reader-border);
+  min-height: 34px;
+  -webkit-app-region: no-drag;
+}
+
+#pageInfo {
+  font-size: 11px;
+  color: rgba(255,255,255,0.4);
+  min-width: 60px;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.nav-btn {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--reader-border);
+  color: rgba(255,255,255,0.6);
+  cursor: pointer;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  transition: all 0.15s;
+}
+
+.nav-btn:hover {
+  background: rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.9);
+}
+
+.nav-btn:active {
+  background: var(--reader-accent);
+}
+
+.progress-text {
+  font-size: 10px;
+  color: rgba(255,255,255,0.3);
+  min-width: 80px;
+  text-align: right;
+}
+
+.quick-settings {
+  position: absolute;
+  top: 38px;
+  right: 8px;
+  background: rgba(26, 26, 46, 0.95);
+  border: 1px solid var(--reader-border);
+  border-radius: 8px;
+  padding: 16px;
+  min-width: 240px;
+  z-index: 100;
+  -webkit-app-region: no-drag;
+  backdrop-filter: blur(10px);
+}
+
+.qs-header {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--reader-accent);
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--reader-border);
+}
+
+.qs-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.qs-row label {
+  font-size: 11px;
+  color: rgba(255,255,255,0.5);
+  min-width: 40px;
+}
+
+.qs-row input[type="range"] {
+  flex: 1;
+  height: 3px;
+  accent-color: #6c63ff;
+}
+
+.qs-row span {
+  font-size: 11px;
+  color: rgba(255,255,255,0.4);
+  min-width: 36px;
+  text-align: right;
+}
+
+.qs-row input[type="color"] {
+  width: 32px;
+  height: 22px;
+  border: 1px solid var(--reader-border);
+  border-radius: 3px;
+  background: none;
+  cursor: pointer;
+  padding: 1px;
+}
+
+.qs-row select {
+  background: rgba(255,255,255,0.06);
+  color: var(--reader-text);
+  border: 1px solid var(--reader-border);
+  border-radius: 4px;
+  padding: 3px 8px;
+  font-size: 12px;
+}
+
+.qs-close {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  padding: 6px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--reader-border);
+  color: rgba(255,255,255,0.6);
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.qs-close:hover {
+  background: rgba(255,255,255,0.12);
+}

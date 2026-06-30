@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>隐读 - 控制台</title>
+<link rel="stylesheet" href="control.css">
+</head>
+<body>
+<div id="app">
+  <aside id="sidebar">
+    <div class="sidebar-header">
+      <h1 class="logo">隐读</h1>
+      <span class="version">v1.0</span>
+    </div>
+    <nav class="sidebar-nav">
+      <a class="nav-item active" data-tab="source" onclick="switchTab('source')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <span>选择来源</span>
+      </a>
+      <a class="nav-item" data-tab="library" onclick="switchTab('library')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        <span>我的书库</span>
+      </a>
+      <a class="nav-item" data-tab="settings" onclick="switchTab('settings')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <span>系统设置</span>
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="btn-mini" onclick="window.electronAPI.openReader()" title="打开阅读窗口">打开阅读窗</button>
+    </div>
+  </aside>
+
+  <main id="content">
+    <section id="tab-source" class="tab active">
+      <div class="tab-header">
+        <h2>选择小说来源</h2>
+      </div>
+      <div class="source-cards">
+        <div class="source-card" onclick="handleLocalFile()">
+          <div class="source-icon local-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          <h3>本地文件</h3>
+          <p>支持 TXT、CSV 等文本格式<br>自动识别编码，智能分章</p>
+          <span class="card-action">选择文件</span>
+        </div>
+        <div class="source-card" onclick="handleWebSource('fanqie')">
+          <div class="source-icon web-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </div>
+          <h3>番茄小说</h3>
+          <p>fanqienovel.com<br>打开浏览器窗口登录后阅读</p>
+          <span class="card-action">打开网页</span>
+        </div>
+        <div class="source-card" onclick="handleWebSource('qidian')">
+          <div class="source-icon web-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </div>
+          <h3>起点中文网</h3>
+          <p>qidian.com<br>打开浏览器窗口登录后阅读</p>
+          <span class="card-action">打开网页</span>
+        </div>
+        <div class="source-card" onclick="handleWebSource('qqread')">
+          <div class="source-icon web-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </div>
+          <h3>QQ阅读</h3>
+          <p>book.qq.com<br>打开浏览器窗口登录后阅读</p>
+          <span class="card-action">打开网页</span>
+        </div>
+      </div>
+      <div class="file-info" id="fileInfo" style="display:none">
+        <div class="info-card">
+          <h3 id="fileName"></h3>
+          <div class="info-meta">
+            <span id="fileSize"></span>
+            <span id="fileEncoding"></span>
+            <span id="fileChapters"></span>
+          </div>
+          <div class="chapter-list-container" id="chapterListContainer" style="display:none">
+            <h4>章节目录</h4>
+            <ul id="chapterList" class="chapter-list"></ul>
+          </div>
+          <button class="btn-primary" id="startReadBtn" style="display:none" onclick="startReading()">开始阅读</button>
+        </div>
+      </div>
+      <div class="status-bar" id="statusBar"></div>
+    </section>
+
+    <section id="tab-library" class="tab">
+      <div class="tab-header">
+        <h2>我的书库</h2>
+      </div>
+      <div class="library-grid" id="libraryGrid">
+        <div class="empty-state">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-tertiary)" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          <p>还没有添加任何小说</p>
+          <p class="sub">从左侧来源中选择文件或网页来添加</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-settings" class="tab">
+      <div class="tab-header">
+        <h2>系统设置</h2>
+      </div>
+      <div class="settings-container">
+        <div class="settings-group">
+          <h3>阅读窗口设置</h3>
+          <div class="setting-row">
+            <label>窗口宽度</label>
+            <div class="setting-control">
+              <input type="range" id="setWidth" min="300" max="1400" value="600" oninput="updateSizeLabel()">
+              <span id="setWidthVal">600px</span>
+            </div>
+          </div>
+          <div class="setting-row">
+            <label>窗口高度</label>
+            <div class="setting-control">
+              <input type="range" id="setHeight" min="200" max="1000" value="400" oninput="updateSizeLabel()">
+              <span id="setHeightVal">400px</span>
+            </div>
+          </div>
+          <div class="setting-row">
+            <label>透明度</label>
+            <div class="setting-control">
+              <input type="range" id="setOpacity" min="10" max="100" value="85" oninput="updateOpacityLabel()">
+              <span id="setOpacityVal">85%</span>
+            </div>
+          </div>
+          <div class="setting-row">
+            <label>字体大小</label>
+            <div class="setting-control">
+              <input type="range" id="setFontSize" min="12" max="28" value="16" oninput="updateFontSizeLabel()">
+              <span id="setFontSizeVal">16px</span>
+            </div>
+          </div>
+          <div class="setting-row">
+            <label>字体</label>
+            <select id="setFontFamily">
+              <option value="Microsoft YaHei, SimSun, serif">微软雅黑</option>
+              <option value="SimSun, serif">宋体</option>
+              <option value="KaiTi, STKaiti, serif">楷体</option>
+              <option value="FangSong, STFangsong, serif">仿宋</option>
+              <option value="'Segoe UI', sans-serif">Segoe UI</option>
+            </select>
+          </div>
+          <div class="setting-row">
+            <label>翻页方式</label>
+            <select id="setPageMode">
+              <option value="scroll">滚动翻页</option>
+              <option value="split">分页模式</option>
+            </select>
+          </div>
+          <div class="setting-row">
+            <label>每页行数</label>
+            <div class="setting-control">
+              <input type="range" id="setLinesPerPage" min="10" max="50" value="20">
+              <span id="setLinesPerPageVal">20行</span>
+            </div>
+          </div>
+          <div class="setting-row">
+            <label>背景颜色</label>
+            <input type="color" id="setBgColor" value="#1a1a2e">
+          </div>
+          <div class="setting-row">
+            <label>文字颜色</label>
+            <input type="color" id="setTextColor" value="#e0e0e0">
+          </div>
+        </div>
+        <div class="settings-group">
+          <h3>快捷键设置</h3>
+          <div id="shortcutSettings"></div>
+          <button class="btn-secondary" onclick="resetShortcuts()">恢复默认快捷键</button>
+        </div>
+        <div class="settings-actions">
+          <button class="btn-primary" onclick="saveAllSettings()">保存设置</button>
+          <button class="btn-secondary" onclick="window.electronAPI.openReader()">打开阅读窗口</button>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+<script src="control.js"></script>
+</body>
+</html>
